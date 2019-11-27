@@ -1,13 +1,11 @@
 import os
+import os, os.path
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
 import os
 import tkinter
 import random 
-
-
-
 root = Tk()
 root.geometry("800x600")
 root.resizable(width=True, height=True)
@@ -19,6 +17,28 @@ genderTetx = None
 ageText = None
 gender = ""
 age = 0
+
+ageRange = ["0-2","4-6","8-12","15-20","25-32","38-43"]
+numberMaleImage = []
+numberFemaleImage = []
+# set the number of image od male and female to 0 for every ageRange
+for i in range(len(ageRange)):
+    numberMaleImage.append(0)
+    numberFemaleImage.append(0)
+
+# count the number of male and female image in directory
+for i in range (len(ageRange)):
+    DIR = "./"+"Male/"+ageRange[i]
+    numberMaleImage[i] = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+    DIR = "./"+"Female/"+ageRange[i]
+    numberFemaleImage[i] = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+
+# print the number of image that we found
+for i in range(len(ageRange)):
+    print("Male   "+ageRange[i]+" has "+str(numberMaleImage[i])+" pictures")
+    print("Female "+ageRange[i]+" has "+str(numberFemaleImage[i])+" pictures")
+
+
 def res():
     global panel,img,btnRandom,displayHair,genderTetx,ageText
     if(displayHair != None):
@@ -33,23 +53,20 @@ def res():
         ageText.destroy()
 
 def callBack():
-    global panel,img,btnRandom,hair,displayHair,gender,ansGender,age
+    global panel,img,btnRandom,hair,displayHair,gender,ansGender,age,ageRange,numberMaleImage
     if(displayHair != None):
         displayHair.destroy()
     
-    ageRange = ["0-2","4-6","8-12","15-20","25-32","38-43"]
-    numberImage = [1,2,4,2,2,2,3]
     for i in range (len(ageRange)):
         if(age == ageRange[i]):
-            theSize = numberImage[i]
+            theSize = numberMaleImage[i]
             break
     print("number is"+str(theSize))
     num = random.randint(1,theSize)
     print("num = "+str(num))
     path = "./"+gender+"/"+age+"/"+str(num)+".jpg"
     print(path)
-    # num = random.randint(1,4)
-    # x = "style"+str(num)+".jpg"
+
     hair = Image.open(path)
     hair = hair.resize((250,250),Image.ANTIALIAS)
     hair = ImageTk.PhotoImage(hair)
