@@ -61,9 +61,9 @@ def callBack():
         if(age == ageRange[i]):
             theSize = numberMaleImage[i]
             break
-    print("number is"+str(theSize))
+    # print("number is"+str(theSize))
     num = random.randint(1,theSize)
-    print("num = "+str(num))
+    # print("num = "+str(num))
     path = "./"+gender+"/"+age+"/"+str(num)+".jpg"
     print(path)
 
